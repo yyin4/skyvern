@@ -51,6 +51,7 @@ if not any(
         SettingsManager.get_settings().ENABLE_AZURE,
         SettingsManager.get_settings().ENABLE_AZURE_GPT4O_MINI,
         SettingsManager.get_settings().ENABLE_BEDROCK,
+        SettingsManager.get_settings().ENABLE_GEMINI,
     ]
 ):
     raise NoProviderEnabledError()
@@ -242,6 +243,17 @@ if SettingsManager.get_settings().ENABLE_AZURE_GPT4O_MINI:
                 api_version=SettingsManager.get_settings().AZURE_GPT4O_MINI_API_VERSION,
                 model_info={"model_name": "azure/gpt-4o-mini"},
             ),
+            supports_vision=True,
+            add_assistant_prefix=False,
+        ),
+    )
+
+if SettingsManager.get_settings().ENABLE_GEMINI:
+    LLMConfigRegistry.register_config(
+        "GEMINI_PRO_VISION",
+        LLMConfig(
+            "gemini/gemini-1.5-pro",
+            ["GEMINI_API_KEY"],
             supports_vision=True,
             add_assistant_prefix=False,
         ),
