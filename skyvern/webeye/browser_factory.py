@@ -268,6 +268,12 @@ async def _create_headless_chromium(
     playwright: Playwright, **kwargs: dict
 ) -> tuple[BrowserContext, BrowserArtifacts, BrowserCleanupFunc]:
     browser_args = BrowserContextFactory.build_browser_args()
+    browser_args.update(
+        {
+            "user_data_dir": "/Users/yyin/Documents/projects/skyvern-gemini/skyvern/user_data",
+            "ignore_default_args": ["--disable-extensions"],
+        }
+    )
     browser_artifacts = BrowserContextFactory.build_browser_artifacts(har_path=browser_args["record_har_path"])
     browser_context = await playwright.chromium.launch_persistent_context(**browser_args)
     return browser_context, browser_artifacts, None
@@ -280,6 +286,8 @@ async def _create_headful_chromium(
     browser_args.update(
         {
             "headless": False,
+            "user_data_dir": "/Users/yyin/Documents/projects/skyvern-gemini/skyvern/user_data",
+            "ignore_default_args": ["--disable-extensions"],
         }
     )
     browser_artifacts = BrowserContextFactory.build_browser_artifacts(har_path=browser_args["record_har_path"])
